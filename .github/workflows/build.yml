@@ -1,50 +1,29 @@
-name: Node.js CI
+name: Release library
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-18.04
+  deploy:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 14.x
-    # - run: npm ci
-    # - run: npm run lint
-    # - run: npm test
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  package:
-    needs: [build]
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: "16"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@yourscope"
 
-  publish:
-    name: "Publish to GitHub Packages"
-    needs: [package]
-    runs-on: ubuntu-18.04
-    steps:
-    - name: Upload
-      uses: actions/download-artifact@v2
-      with:
-          name: package
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 14.x
-        registry-url: https://npm.pkg.github.com/
-        scope: "@Tarma-SDK"
-    - run: echo "registry=https://npm.pkg.github.com/@Tarma-SDK" >> .npmrc
-    - run: npm publish $(ls *.tgz)
-      env:
-        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-# 
+      ### Check in, install, and build as your project needs it
+
+      - name: Release package
+        run: |
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
