@@ -3,8 +3,9 @@ name: release
 on:
   push:
     branches:
-      - release
+      - master
 
+jobs:
   publisher:
     runs-on: ubuntu-latest
     steps:
