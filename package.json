@@ -7,9 +7,6 @@
   "author": "",
   "license": "AGPL-3.0-or-later",
   "repository": "https://github.com/Tarma-SDK/tarma-eslint.git",
-  "publishConfig": {
-    "@tarma-sdk:registry": "https://npm.pkg.github.com"
-  },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "@typescript-eslint/parser": "^4.14.0",
