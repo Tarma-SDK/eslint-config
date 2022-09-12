@@ -1,32 +1,17 @@
-name: Release library
+name: release
 
 on:
   push:
     branches:
-      - master
-  workflow_dispatch:
+      - release
 
-jobs:
-  deploy:
+  publisher:
+    needs: tag
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install NodeJS
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v1
+      - uses: tool3/publisher@v1
         with:
-          node-version: "16"
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@tarma"
-
-      ### Check in, install, and build as your project needs it
-
-      - name: Release package
-        run: |
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          npm_token: ${{ secrets.NPM_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN }}
+          scope: "@tarma-sdk"
