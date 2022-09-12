@@ -3,7 +3,7 @@ name: Release library
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: "16"
           registry-url: "https://npm.pkg.github.com"
-          scope: "@yourscope"
+          # scope: "@Tarma-SDK"
 
       ### Check in, install, and build as your project needs it
 
