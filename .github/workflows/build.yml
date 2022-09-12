@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: "16"
           registry-url: "https://npm.pkg.github.com"
-          # scope: "@Tarma-SDK"
+          scope: "@tarma"
 
       ### Check in, install, and build as your project needs it
 
