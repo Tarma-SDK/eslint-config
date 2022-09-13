@@ -1,4 +1,4 @@
-name: Tag new npm package and release
+name: Tag new npm package
 on:
   push:
     branches:
@@ -13,19 +13,3 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: neverendingqs/gh-action-tag-on-npm-version@master
-  release:
-    name: Create Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@master
-        with:
-          fetch-depth: 0
-      - name: Create Release for Tag
-        id: release_tag
-        uses: Akryum/release-tag@conventional
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          preset: angular
