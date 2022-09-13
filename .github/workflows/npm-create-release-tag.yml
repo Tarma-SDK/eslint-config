@@ -1,24 +1,27 @@
 name: Create release
+
 on:
-  workflow_dispatch:
-    branches:
-      - master
+  push:
+    tags:
+      - "v*"
 
 jobs:
   build:
-    name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@master
+      - uses: actions/checkout@v3
+      - name: Tag and prepare release
+        id: tag_and_prepare_release
+        uses: K-Phoen/semver-release-action@v1.3.1
         with:
-          fetch-depth: 0
-
-      - name: Create Release for Tag
-        id: release_tag
-        uses: Akryum/release-tag@conventional
+          release_branch: master
+          release_strategy: tag
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Upload release notes
+        if: steps.tag_and_prepare_release.outputs.tag
+        uses: Roang-zero1/github-create-release-action@v2
         with:
-          tag_name: ${{ github.ref }}
-          preset: angular
+          created_tag: ${{ steps.tag_and_prepare_release.outputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
