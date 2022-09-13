@@ -4,13 +4,3 @@ on:
   workflow_dispatch:
     branches:
       - master
-
-jobs:
-  release-on-push:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-    steps:
-      - uses: rymndhng/release-on-push-action@master
-        with:
-          bump_version_scheme: minor
